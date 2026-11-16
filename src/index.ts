@@ -95,7 +95,7 @@ const startAvatarHandlers = () => {
     })
 }
 const startVRCHandlers = (loadingSpinner: SpinnerResult)=> {
-    oscServer.addEventListener(["/avatar/parameters/VRCSizeShifter/State", '/avatar/parameters/VRCSizeShifter/State'], (value) => {
+    oscServer.addEventListener(["/avatar/parameters/VRCScaler/State", '/avatar/parameters/VRCSizeShifter/State'], (value) => {
         if (!currentSession || typeof value !== "number") return;
         if (currentSession.state === value) return;
 
@@ -108,28 +108,28 @@ const startVRCHandlers = (loadingSpinner: SpinnerResult)=> {
         }
         currentSession.startScale();
     })
-    oscServer.addEventListener(["/avatar/parameters/VRCSizeShifter/Rate", "/avatar/parameters/VRCSizeShifter/Rate"], (value) => {
+    oscServer.addEventListener(["/avatar/parameters/VRCScaler/Rate", "/avatar/parameters/VRCSizeShifter/Rate"], (value) => {
         if (!currentSession || typeof value !== "number") return;
         if (currentSession.scaleRate === (value * 100)) return;
         currentSession.scaleRate = value * 100;
         currentSession.save();
     })
-    oscServer.addEventListener(["/avatar/parameters/VRCSizeShifter/Rate/Unit", "/avatar/parameters/VRCSizeShifter/Rate/Unit"], (value) => {
+    oscServer.addEventListener(["/avatar/parameters/VRCScaler/Rate/Unit", "/avatar/parameters/VRCSizeShifter/Rate/Unit"], (value) => {
         if (!currentSession || typeof value !== "number") return;
         if (currentSession.scaleRateUnit === value) return;
         currentSession.scaleRateUnit = value;
         currentSession.updateScaleRate();
         currentSession.save();
     })
-    oscServer.addEventListener(["/avatar/parameters/VRCSizeShifter/Rate/Meters", "/avatar/parameters/VRCSizeShifter/Rate/Meters"], (value) => {
+    oscServer.addEventListener(["/avatar/parameters/VRCScaler/Rate/Meters", "/avatar/parameters/VRCSizeShifter/Rate/Meters"], (value) => {
         if (!currentSession || typeof value !== "number" || value === 0) return;
         if (value === 0) return;
 
-        currentSession.setScaleRate(value * 100);
         currentSession.setScaleRateUnit(Session.metersUnit);
+        currentSession.setScaleRate(value * 100);
         currentSession.save();
 
-        oscClient.send("/avatar/parameters/VRCSizeShifter/Rate/Meters", {
+        oscClient.send("/avatar/parameters/VRCScaler/Rate/Meters", {
             type: 'float',
             value: 0
         });
@@ -138,15 +138,15 @@ const startVRCHandlers = (loadingSpinner: SpinnerResult)=> {
             value: 0
         });
     })
-    oscServer.addEventListener(["/avatar/parameters/VRCSizeShifter/Rate/Centimeters", "/avatar/parameters/VRCSizeShifter/Rate/Centimeters"], (value) => {
+    oscServer.addEventListener(["/avatar/parameters/VRCScaler/Rate/Centimeters", "/avatar/parameters/VRCSizeShifter/Rate/Centimeters"], (value) => {
         if (!currentSession || typeof value !== "number" || value === 0) return;
         if (value === 0) return;
 
-        currentSession.setScaleRate(value * 100);
         currentSession.setScaleRateUnit(Session.centimetersUnit);
+        currentSession.setScaleRate(value * 100);
         currentSession.save();
 
-        oscClient.send("/avatar/parameters/VRCSizeShifter/Rate/Centimeters", {
+        oscClient.send("/avatar/parameters/VRCScaler/Rate/Centimeters", {
             type: 'float',
             value: 0
         });
@@ -155,20 +155,20 @@ const startVRCHandlers = (loadingSpinner: SpinnerResult)=> {
             value: 0
         });
     })
-    oscServer.addEventListener(["/avatar/parameters/VRCSizeShifter/Settings/AutoRestore", "/avatar/parameters/VRCSizeShifter/Settings/AutoRestore"], (value) => {
+    oscServer.addEventListener(["/avatar/parameters/VRCScaler/Settings/AutoRestore", "/avatar/parameters/VRCSizeShifter/Settings/AutoRestore"], (value) => {
         if (!currentSession || typeof value !== "boolean") return;
         if (currentSession.autoRestore === value) return;
         currentSession.autoRestore = value;
         currentSession.save();
     })
-    oscServer.addEventListener(["/avatar/parameters/VRCSizeShifter/ResetHeight", "/avatar/parameters/VRCSizeShifter/ResetHeight"], (value) => {
+    oscServer.addEventListener(["/avatar/parameters/VRCScaler/ResetHeight", "/avatar/parameters/VRCSizeShifter/ResetHeight"], (value) => {
         if (!currentSession || typeof value !== "boolean") return;
         if (!value) return;
 
         currentSession.resetHeight();
         currentSession.save();
 
-        oscClient.send("/avatar/parameters/VRCSizeShifter/ResetHeight", {
+        oscClient.send("/avatar/parameters/VRCScaler/ResetHeight", {
             type: 'boolean',
             value: false
         });
@@ -177,14 +177,14 @@ const startVRCHandlers = (loadingSpinner: SpinnerResult)=> {
             value: false
         });
     })
-    oscServer.addEventListener(["/avatar/parameters/VRCSizeShifter/Settings/Reset", "/avatar/parameters/VRCSizeShifter/Settings/Reset"], (value) => {
+    oscServer.addEventListener(["/avatar/parameters/VRCScaler/Settings/Reset", "/avatar/parameters/VRCSizeShifter/Settings/Reset"], (value) => {
         if (!currentSession || typeof value !== "boolean") return;
         if (!value) return;
 
         currentSession.reset();
         currentSession.save();
 
-        oscClient.send("/avatar/parameters/VRCSizeShifter/Settings/Reset", {
+        oscClient.send("/avatar/parameters/VRCScaler/Settings/Reset", {
             type: 'boolean',
             value: false
         });
@@ -193,14 +193,14 @@ const startVRCHandlers = (loadingSpinner: SpinnerResult)=> {
             value: false
         });
     })
-    oscServer.addEventListener(["/avatar/parameters/VRCSizeShifter/Settings/DefaultHeight", "/avatar/parameters/VRCSizeShifter/Settings/DefaultHeight"], (value) => {
+    oscServer.addEventListener(["/avatar/parameters/VRCScaler/Settings/DefaultHeight", "/avatar/parameters/VRCSizeShifter/Settings/DefaultHeight"], (value) => {
         if (!currentSession || typeof value !== "boolean") return;
         if (!value) return;
 
         currentSession.defaultEyeHeight = currentSession.currentEyeHeight;
         currentSession.save();
 
-        oscClient.send("/avatar/parameters/VRCSizeShifter/Settings/DefaultHeight", {
+        oscClient.send("/avatar/parameters/VRCScaler/Settings/DefaultHeight", {
             type: 'boolean',
             value: false
         });
