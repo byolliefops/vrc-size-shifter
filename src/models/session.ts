@@ -2,7 +2,7 @@ import {oscClient} from "@/index";
 import {fetchFile, saveFile} from "utils/filesystem";
 import {Settings} from "models/settings";
 
-const filePath = 'vrc-scaler_sessions.json';
+const filePath = 'VRCSizeShifter_Sessions.json';
 let scalerTimer: NodeJS.Timeout | undefined;
 
 export class Session {
@@ -46,12 +46,20 @@ export class Session {
             type: 'float',
             value: value
         });
+        oscClient.send('/avatar/parameters/VRCSizeShifter/State', {
+            type: 'float',
+            value: value
+        });
     }
     setScaleRate(value: number) {
         this.scaleRate = value;
         oscClient.send('/avatar/parameters/VRCScaler/Rate', {
             type: 'float',
             value: value / 100
+        });
+        oscClient.send('/avatar/parameters/VRCSizeShifter/Rate', {
+            type: 'float',
+            value: value
         });
     }
     setScaleRateUnit(value: number) {
@@ -60,10 +68,18 @@ export class Session {
             type: 'float',
             value: value
         });
+        oscClient.send('/avatar/parameters/VRCSizeShifter/Rate/Unit', {
+            type: 'float',
+            value: value
+        });
     }
     setAutoRestore(value: boolean) {
         this.autoRestore = value;
         oscClient.send('/avatar/parameters/VRCScaler/Settings/AutoRestore', {
+            type: 'boolean',
+            value: value
+        });
+        oscClient.send('/avatar/parameters/VRCSizeShifter/Settings/AutoRestore', {
             type: 'boolean',
             value: value
         });

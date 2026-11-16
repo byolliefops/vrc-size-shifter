@@ -1,6 +1,6 @@
 import {fetchFile, saveFile} from "utils/filesystem";
 
-const filePath = 'vrc-scaler_settings.json';
+const filePath = 'VRCSizeShifter_Settings.json';
 
 export class Settings {
     minEyeHeight: number = 0.5;

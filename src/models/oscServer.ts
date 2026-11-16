@@ -13,12 +13,12 @@ export class OscServer {
         this.server = OSCServer;
     }
 
-    addEventListener(address: string, eventHandler: (data: string|number|boolean) => void) {
+    addEventListener(address: string|string[], eventHandler: (data: string|number|boolean) => void) {
         if (!this.server) return;
         this.server.on('message', (msg: [string, string|number|boolean]) => {
             const [msgAddress, msgValue] = msg;
 
-            if (msgAddress == address) {
+            if (address.includes(msgAddress)) {
                 eventHandler(msgValue);
             }
         })
