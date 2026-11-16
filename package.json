@@ -1,14 +1,11 @@
 {
-  "name": "vrc-scaler",
-  "version": "1.0.0",
+  "name": "vrc-size-shifter",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "dev": "bun --watch src/index.ts",
-    "build": "bun run build:win && bun run build:linux-x64 && bun run build:linux-arm",
-    "build:win": "bun build --compile --target bun-win32-x64 src/index.ts --outfile=./dist/vrc-scaler_v$(node -p \"require('./package.json').version\")",
-    "build:linux-x64": "bun build --compile --target=bun-linux-x64 src/index.ts --outfile=./dist/vrc-scaler_v$(node -p \"require('./package.json').version\")_x64",
-    "build:linux-arm": "bun build --compile --target=bun-linux-arm64 src/index.ts --outfile=./dist/vrc-scaler_v$(node -p \"require('./package.json').version\")_arm64"
+    "build": "bun run build.ts"
   },
   "dependencies": {
     "@clack/prompts": "^1.8.1",
