@@ -59,7 +59,7 @@ export class Session {
         });
         oscClient.send('/avatar/parameters/VRCSizeShifter/Rate', {
             type: 'float',
-            value: value
+            value: value / 100
         });
     }
     setScaleRateUnit(value: number) {
